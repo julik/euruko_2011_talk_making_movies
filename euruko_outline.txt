@@ -1,0 +1,81 @@
+- Julik, working for HecticElectric. HE is active on the Dutch postproduction market for 15 years now, doing visual effects and online editing.
+I will show you what we do.
+- Show HE showreel
+- Post and VFX
+ - Final quality material (HD material, 2K, RAW file conversion)
+ - 3D animation, effects
+ - Compositing
+ - Color correction
+ - Deliverables
+ 
+- Post production one of the most demanding industries for computing with a few specuial quirks
+- The first to use lots of military tech
+- Probably the most cross-platform community out there
+- Maya usage stats
+
+- Lots of scripting
+- 2 types: outside with a loose interpreter and embedded
+- Ruby lost the embedding war partly due to communication
+- Apps that currently embed python: 
+  Maya, Houdini, Nuke, Toxik, Blender, Katana, XSI, C4D...
+- Interesting to note that most of them started out with a different programming language (Nuke on TCL, 
+Maya still has MEL, Houdini has hscript and so on) but they arrived at the conclusion that having one is better.
+- Ruby is out in the cold, community structure not safe enough for vendors to embed.
+
+- However we can use Ruby to run things outside of the host applications
+
+- Therefore - Guerilla-DI, putting Ruby in our VFX
+
+1) Data wrangling
+- A modern commercial in it's final deliverable form is
+1920x1080 pixels
+in 10 bit per channel (3 channels)
+at 25 frames per second, a commercial being 30 seconds
+about 6 gigabytes (no sound, just image)
+- Post houses cannot yet work off the cloud
+
+Material shot and needing search and metadata access is much bigger - shooting ratio
+30-40 to 1 not uncommon
+Sometimes say copying media that you will need might take you a day if you are not careful
+It's crucial to know what you need to copy
+
+Extreme case study: a production shot on Phantom high-speed camera
+For 1250 frames of final output, 56055 images shot
+About 400 gigs of data
+Being able to pick the right files to copy to the actual editing machine a boost!
+
+Files stored in DPX (a standard), one file per frame.
+- Reduces losses when a frame is corrupted, allows partial transfers
+
+sequencer + depix + sqlite
+- Make a catalog of all frames in a project, sort them by timecode, find specific frames.
+edl + depix + sqlite
+- Check which frames are actually used in the edit
+
+2) Data exchange
+- Any given production will use multiple applications
+- We need to translate between them
+- tracksperanto
+- Motion tracking data - motion tracking originally developed for missile guidance, now used for tracking any points in the 
+image and reconstruct the camera
+
+parser.parse(file_with_proprietary_data).each do | parsed_nugget_of_data |
+  some_other_format.write(parsed_nugget_of_data)
+end
+
+- File translation in this case is simple except for when it's not
+- One of the formats is a C-like language that needs a lexer, another is raw TCL
+- Used in-house, then released (all these start with dogfooding) simultanously on the web and as a gem
+- Pipe dream achieved - exactly the same code running online and in the terminal
+- Useful for recovering example files
+
+3) Tips
+- Liberal license (in many FX houses GPL is a no-no)
+- Keep everyone up to date - update_hints
+- No pivotal_tracker, mailing lists, GH issues and all that jazz - just info#{(8**2).chr }your_domain.com
+- Small tools that do one thing and do it well
+- Progress bars
+- Cross-platform is important!
+
+
+
